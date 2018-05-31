@@ -4,13 +4,15 @@ var overlaySearch = document.querySelector('.overlay-search');
 var userSearch = popupSearch.querySelector('[name=search]');
 var closeSearch = document.querySelector('.overlay-search');
 
-linkSearch.addEventListener('click', function (evt) {
+  linkSearch.addEventListener('click', function (evt) {
     evt.preventDefault();
     popupSearch.classList.add('modal-show');
     overlaySearch.classList.add('modal-show');
     userSearch.focus();
     popupLogin.classList.remove('modal-show');
     overlayLogin.classList.remove('modal-show');
+    popupOrder.classList.remove('modal-show-block');
+    overlayOrder.classList.remove('modal-show');
   });
 
 closeSearch.addEventListener('click', function (evt) {
@@ -52,10 +54,12 @@ try {
     userEmail.value = storage;
     userPassword.focus();
   } else {
-    userEmail.focus();
+  	userEmail.focus();
   }
     popupSearch.classList.remove('modal-show');
     overlaySearch.classList.remove('modal-show');
+    popupOrder.classList.remove('modal-show-block');
+    overlayOrder.classList.remove('modal-show');
   });
 
 closeLogin.addEventListener('click', function (evt) {
@@ -88,83 +92,48 @@ window.addEventListener('keydown', function (evt) {
     }
   });
 
-var linkWrite = document.querySelector('.button-writeus-form');
-var popupWrite = document.querySelector('.writeus-form');
-var overlayWrite = document.querySelector('.overlay-body');
-var closeWrite = popupWrite.querySelector('.close');
-var closeAll = document.querySelector('.overlay-body');
 
-var formWrite = document.querySelector(".writeus-form");
-var userName = formWrite.querySelector("[name=name]");
-var userMail = formWrite.querySelector("[name=email-writeus]");
-var userTextarea = formWrite.querySelector("[name=write-letter]");
-var isStorageSupportWrite = true;
-var storageWrite = '';
+var linkOrder = document.querySelector('.order-user');
+var popupOrder = document.querySelector('.order-popup');
+var overlayOrder = document.querySelector('.overlay-order');
+var closeOrder = document.querySelector('.overlay-order');
 
-try {
-  storageWrite = localStorage.getItem("userName");
-  storageWrite = localStorage.getItem("userMail");
-  storageWrite = localStorage.getItem("userTextarea");
-} catch (err) {
-  isStorageSupportWrite = false;
-} 
-
-linkWrite.addEventListener('click', function (evt){
-  evt.preventDefault();
-  popupWrite.classList.add('modal-show');
-  overlayWrite.classList.add('modal-show');
-
-  popupLogin.classList.remove('modal-show');
-  overlayLogin.classList.remove('modal-show');
-
-  popupSearch.classList.remove('modal-show');
-  overlaySearch.classList.remove('modal-show');
-  if (storageWrite) {
-    userName.value = storageWrite;
-    userMail.value = storageWrite;
-    userTextarea.focus();
-  } else {
-    userName.focus();
-  }
-});
-
-formWrite.addEventListener("submit", function (evt) {
-  if (!userMail.value || !userTextarea.value) {
+linkOrder.addEventListener('click', function (evt) {
     evt.preventDefault();
-    popupWrite.classList.remove("modal-error");
-    popupWrite.offsetWidth = popupWrite.offsetWidth;
-    popupWrite.classList.add("modal-error");
-    console.log("Нужно ввести ваши данные !");
-  } else {
-    if (isStorageSupportWrite) {
-      localStorage.setItem("userName", userName.value);
-      localStorage.setItem("userMail", userMail.value);
-      localStorage.setItem("userTextarea", userTextarea.value);
+    popupOrder.classList.add('modal-show-block');
+    overlayOrder.classList.add('modal-show');
+    popupSearch.classList.remove('modal-show');
+    overlaySearch.classList.remove('modal-show');
+    popupLogin.classList.remove('modal-show');
+    overlayLogin.classList.remove('modal-show');
+  });
+
+closeOrder.addEventListener('click', function (evt) {
+    evt.preventDefault();
+    popupOrder.classList.remove('modal-show-block');
+    overlayOrder.classList.remove('modal-show');
+  });
+
+form.addEventListener('submit', function (evt) {
+    if (!userEmail.value || !userPassword.value) {
+      evt.preventDefault();
+      popupLogin.classList.remove('modal-error');
+      popupLogin.offsetWidth = popupLogin.offsetWidth;
+      popupLogin.classList.add('modal-error');
+    } else {
+      if (isStorageSupport) {
+        localStorage.setItem('userEmail', userEmail.value);
+        localStorage.setItem('userPassword', userPassword.value);
+      }
     }
-  }
-});
-
-closeWrite.addEventListener('click', function (evt) {
-    evt.preventDefault();
-    popupWrite.classList.remove('modal-show');
-    overlayWrite.classList.remove('modal-show');
-    popupWrite.classList.remove('modal-error');
-});
-
-closeAll.addEventListener('click', function (evt) {
-    evt.preventDefault();
-    popupWrite.classList.remove('modal-show');
-    overlayWrite.classList.remove('modal-show');
-    popupWrite.classList.remove('modal-error');
-});
+  });
 
 window.addEventListener('keydown', function (evt) {
     if (evt.keyCode === 27) {
       evt.preventDefault();
-      if (popupWrite.classList.contains('modal-show')) {
-        popupWrite.classList.remove('modal-show');
-        overlayWrite.classList.remove('modal-show');
-        popupWrite.classList.remove('modal-error');
+      if (popupOrder.classList.contains('modal-show-block')) {
+        popupOrder.classList.remove('modal-show-block');
+    overlayOrder.classList.remove('modal-show');
       }
     }
   });
